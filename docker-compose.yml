@@ -1,0 +1,34 @@
+version: "3.5"
+services:
+  database:
+    image: chromadb/chroma:latest
+    container_name: yanfei-data
+    command: "--workers 1 --host 0.0.0.0 --port 8000 --proxy-headers --log-config chromadb/log_config.yml --timeout-keep-alive 30"
+    ports:
+      - 127.0.0.1:2201:8000
+    volumes:
+      - chroma:/chroma/chroma
+    networks:
+      - yanfei
+    environment:
+      IS_PERSISTENT: "TRUE"
+      PERSIST_DIRECTORY: /chroma/chroma
+    restart: always
+
+  cache:
+    image: redis:7.0
+    container_name: yanfei-cache
+    ports:
+      - 127.0.0.1:2202:6379
+    networks:
+      - yanfei
+    restart: always
+
+volumes:
+  chroma:
+    driver: local
+
+networks:
+  yanfei:
+    name: yanfei
+    driver: bridge

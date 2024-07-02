@@ -1,3 +1,3 @@
 # yanfei
 
-The helper for Genshin Impact players.
+docker-composer.yml of chroma + redis, for sample only.
